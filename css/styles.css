@@ -1187,6 +1187,16 @@ textarea.form-control {
   margin-top: 3px;
 }
 
+.footer-contact-details a {
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.footer-contact-details a:hover {
+  color: var(--color-primary);
+}
+
 .footer-bottom {
   border-top: 1px solid var(--border-light);
   padding-top: 2rem;
