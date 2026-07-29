@@ -62,7 +62,18 @@ document.addEventListener('DOMContentLoaded', () => {
     revealOnScroll.observe(el);
   });
 
-  // 5. CONTACT FORM INTERACTION
+  // 5. PRE-SELECT SERVICE FROM URL QUERY PARAMETER
+  const urlParams = new URLSearchParams(window.location.search);
+  const serviceParam = urlParams.get('service');
+  const serviceSelect = document.getElementById('requestedService');
+  if (serviceSelect && serviceParam) {
+    if (serviceParam === 'SEO') serviceSelect.value = 'SEO Services';
+    else if (serviceParam === 'PaidAds') serviceSelect.value = 'Paid Ads';
+    else if (serviceParam === 'GoogleListing') serviceSelect.value = 'Google Listing';
+    else if (serviceParam === 'PRServices') serviceSelect.value = 'PR Services';
+  }
+
+  // 6. CONTACT FORM INTERACTION
   const contactForm = document.getElementById('agencyContactForm');
   if (contactForm) {
     contactForm.addEventListener('submit', (e) => {
