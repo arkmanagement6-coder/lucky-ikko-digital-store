@@ -65,11 +65,8 @@ document.addEventListener('DOMContentLoaded', () => {
   // 5. SABPAISA PAYMENT GATEWAY INTEGRATION
   const SABPAISA_CONFIG = {
     clientCode: 'ARKM1',
-    apiKey: 'sp_P4FN07lSTKNxqbLdT2SN5ZvKCzBTxasI0PgsMaM7_Og',
-    secretKey: 'sec_C-0PTD_nPJ2Q4j7JDGDqhmqQLYyNEXTLkiJgp_dAAMU',
     merchantName: 'ARK Management',
-    brandName: 'ARK Digital',
-    upiVpa: '8433206010@upi' // Primary merchant UPI ID for direct instant payments
+    brandName: 'ARK Digital'
   };
 
   // Build and Inject SabPaisa Payment Modal DOM
@@ -84,7 +81,7 @@ document.addEventListener('DOMContentLoaded', () => {
         <div class="sp-modal-header">
           <div>
             <div class="sp-modal-title">
-              <h3>SabPaisa Checkout</h3>
+              <h3>SabPaisa Payment Gateway</h3>
             </div>
             <span class="sp-badge">Merchant ID: ${SABPAISA_CONFIG.clientCode} | ${SABPAISA_CONFIG.merchantName}</span>
           </div>
@@ -93,7 +90,7 @@ document.addEventListener('DOMContentLoaded', () => {
         <div class="sp-modal-body">
           <div class="sp-summary-card">
             <div class="sp-summary-row">
-              <span>Selected Campaign Plan</span>
+              <span>Selected Service Plan</span>
               <strong id="spModalPlanName" style="color:#fff;">Organic SEO Services</strong>
             </div>
             <div class="sp-summary-row">
@@ -108,59 +105,32 @@ document.addEventListener('DOMContentLoaded', () => {
 
           <div class="sp-merchant-info">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
-            <span>Verified Merchant: <strong>${SABPAISA_CONFIG.merchantName}</strong> (${SABPAISA_CONFIG.brandName})</span>
+            <span>SabPaisa 256-Bit SSL Encrypted Gateway</span>
           </div>
 
           <form id="spCheckoutForm">
-            <div class="form-group" style="margin-bottom: 0.85rem;">
-              <label style="display:block; font-size:0.85rem; color:var(--text-muted); margin-bottom:0.3rem;">Payer Name *</label>
-              <input type="text" id="spPayerName" class="form-control" placeholder="e.g. Rohan Sharma" required style="width:100%; padding:0.65rem 0.85rem; background:rgba(255,255,255,0.05); border:1px solid var(--border-light); color:#fff; border-radius:8px; font-size:0.9rem;">
+            <div class="form-group" style="margin-bottom: 1rem;">
+              <label style="display:block; font-size:0.85rem; color:var(--text-muted); margin-bottom:0.4rem;">Full Name *</label>
+              <input type="text" id="spPayerName" class="form-control" placeholder="e.g. Rohan Sharma" required style="width:100%; padding:0.75rem; background:rgba(255,255,255,0.05); border:1px solid var(--border-light); color:#fff; border-radius:8px;">
             </div>
-            <div class="form-group" style="margin-bottom: 0.85rem;">
-              <label style="display:block; font-size:0.85rem; color:var(--text-muted); margin-bottom:0.3rem;">Email Address *</label>
-              <input type="email" id="spPayerEmail" class="form-control" placeholder="e.g. client@domain.com" required style="width:100%; padding:0.65rem 0.85rem; background:rgba(255,255,255,0.05); border:1px solid var(--border-light); color:#fff; border-radius:8px; font-size:0.9rem;">
+            <div class="form-group" style="margin-bottom: 1rem;">
+              <label style="display:block; font-size:0.85rem; color:var(--text-muted); margin-bottom:0.4rem;">Email Address *</label>
+              <input type="email" id="spPayerEmail" class="form-control" placeholder="e.g. client@domain.com" required style="width:100%; padding:0.75rem; background:rgba(255,255,255,0.05); border:1px solid var(--border-light); color:#fff; border-radius:8px;">
             </div>
-            <div class="form-group" style="margin-bottom: 1.25rem;">
-              <label style="display:block; font-size:0.85rem; color:var(--text-muted); margin-bottom:0.3rem;">Mobile Number *</label>
-              <input type="tel" id="spPayerMobile" class="form-control" placeholder="e.g. 9876543210" required maxlength="10" style="width:100%; padding:0.65rem 0.85rem; background:rgba(255,255,255,0.05); border:1px solid var(--border-light); color:#fff; border-radius:8px; font-size:0.9rem;">
-            </div>
-
-            <!-- Payment Mode Selector -->
-            <div style="margin-bottom: 1.25rem;">
-              <label style="display:block; font-size:0.85rem; color:var(--text-muted); margin-bottom:0.5rem;">Select Payment Method *</label>
-              <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.5rem;">
-                <button type="button" class="sp-mode-btn active" id="modeUpiBtn" style="padding:0.6rem; border:1px solid var(--color-primary); background:rgba(0,242,254,0.1); color:#fff; border-radius:8px; font-size:0.85rem; font-weight:600; cursor:pointer;">⚡ Instant UPI / QR</button>
-                <button type="button" class="sp-mode-btn" id="modeGateBtn" style="padding:0.6rem; border:1px solid var(--border-light); background:rgba(255,255,255,0.03); color:var(--text-muted); border-radius:8px; font-size:0.85rem; font-weight:600; cursor:pointer;">🏛 SabPaisa Online</button>
-              </div>
+            <div class="form-group" style="margin-bottom: 1.5rem;">
+              <label style="display:block; font-size:0.85rem; color:var(--text-muted); margin-bottom:0.4rem;">Mobile Number *</label>
+              <input type="tel" id="spPayerMobile" class="form-control" placeholder="e.g. 9876543210" required maxlength="10" style="width:100%; padding:0.75rem; background:rgba(255,255,255,0.05); border:1px solid var(--border-light); color:#fff; border-radius:8px;">
             </div>
 
-            <!-- UPI Payment View -->
-            <div id="upiPaymentView" style="text-align:center; padding:1rem; background:rgba(255,255,255,0.02); border:1px solid var(--border-light); border-radius:10px; margin-bottom:1.25rem;">
-              <div style="font-size:0.85rem; color:var(--text-muted); margin-bottom:0.75rem;">Scan QR or click below to pay via GPay / PhonePe / Paytm / BHIM</div>
-              <div id="spQrContainer" style="background:#fff; padding:10px; display:inline-block; border-radius:10px; margin-bottom:0.75rem;">
-                <img id="spQrImg" src="" alt="Payment QR Code" style="width:160px; height:160px; display:block;">
-              </div>
-              <div style="font-size:0.85rem; color:#fff; font-weight:600; margin-bottom:0.75rem;">UPI VPA: <span style="color:var(--color-primary);" id="spVpaText">8433206010@upi</span></div>
-              <a id="spUpiPayLink" href="#" target="_blank" class="sp-pay-submit-btn" style="text-decoration:none; display:inline-flex; width:100%; justify-content:center;">
-                🚀 Pay via Any UPI App (GPay/PhonePe/Paytm)
-              </a>
-            </div>
-
-            <!-- Online Gateway View -->
-            <div id="gatePaymentView" style="display:none; padding:1rem; background:rgba(255,255,255,0.02); border:1px solid var(--border-light); border-radius:10px; margin-bottom:1.25rem; text-align:center;">
-              <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:1rem;">
-                Connecting to SabPaisa Gateway Server (Client ID: <strong>${SABPAISA_CONFIG.clientCode}</strong>).
-              </p>
-              <button type="submit" class="sp-pay-submit-btn" id="spPaySubmitBtn">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
-                <span>Proceed to SabPaisa Gateway</span>
-              </button>
-            </div>
+            <button type="submit" class="sp-pay-submit-btn" id="spPaySubmitBtn">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+              <span>Pay Now via SabPaisa Gateway</span>
+            </button>
           </form>
 
           <div class="sp-security-footer">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
-            <span>256-Bit SSL Encrypted Payment | SabPaisa Client ID: ${SABPAISA_CONFIG.clientCode}</span>
+            <span>Official SabPaisa Payment Gateway Authentication (Client ID: ${SABPAISA_CONFIG.clientCode})</span>
           </div>
         </div>
       </div>
@@ -180,56 +150,19 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
-    // Payment Mode Switcher
-    const modeUpiBtn = document.getElementById('modeUpiBtn');
-    const modeGateBtn = document.getElementById('modeGateBtn');
-    const upiView = document.getElementById('upiPaymentView');
-    const gateView = document.getElementById('gatePaymentView');
-
-    if (modeUpiBtn && modeGateBtn) {
-      modeUpiBtn.addEventListener('click', () => {
-        modeUpiBtn.classList.add('active');
-        modeUpiBtn.style.background = 'rgba(0,242,254,0.1)';
-        modeUpiBtn.style.borderColor = 'var(--color-primary)';
-        modeUpiBtn.style.color = '#fff';
-
-        modeGateBtn.classList.remove('active');
-        modeGateBtn.style.background = 'rgba(255,255,255,0.03)';
-        modeGateBtn.style.borderColor = 'var(--border-light)';
-        modeGateBtn.style.color = 'var(--text-muted)';
-
-        upiView.style.display = 'block';
-        gateView.style.display = 'none';
-      });
-
-      modeGateBtn.addEventListener('click', () => {
-        modeGateBtn.classList.add('active');
-        modeGateBtn.style.background = 'rgba(0,242,254,0.1)';
-        modeGateBtn.style.borderColor = 'var(--color-primary)';
-        modeGateBtn.style.color = '#fff';
-
-        modeUpiBtn.classList.remove('active');
-        modeUpiBtn.style.background = 'rgba(255,255,255,0.03)';
-        modeUpiBtn.style.borderColor = 'var(--border-light)';
-        modeUpiBtn.style.color = 'var(--text-muted)';
-
-        gateView.style.display = 'block';
-        upiView.style.display = 'none';
-      });
-    }
-
-    // Form Submit Handler
+    // Form Submit Handler connecting to backend Serverless API (/api/pay)
     const checkoutForm = document.getElementById('spCheckoutForm');
     if (checkoutForm) {
-      checkoutForm.addEventListener('submit', (e) => {
+      checkoutForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         const payerName = document.getElementById('spPayerName').value.trim();
         const payerEmail = document.getElementById('spPayerEmail').value.trim();
         const payerMobile = document.getElementById('spPayerMobile').value.trim();
         const currentAmount = modalOverlay.getAttribute('data-price') || '999';
+        const currentPlan = modalOverlay.getAttribute('data-plan') || 'Organic SEO Services';
 
         if (!payerName || !payerEmail || !payerMobile) {
-          alert('Please enter your Name, Email, and Mobile number.');
+          alert('Please fill out your Name, Email, and Mobile number.');
           return;
         }
 
@@ -241,10 +174,65 @@ document.addEventListener('DOMContentLoaded', () => {
         const submitBtn = document.getElementById('spPaySubmitBtn');
         if (submitBtn) {
           submitBtn.disabled = true;
-          submitBtn.innerHTML = 'Connecting Gateway...';
+          submitBtn.innerHTML = 'Connecting to SabPaisa Gateway...';
         }
 
-        alert('Client Details Saved!\n\nMerchant: ARK Management (Client ID: ARKM1)\nAmount: ₹' + currentAmount + '\n\nPlease proceed to complete payment via UPI QR or Google Pay.');
+        try {
+          const res = await fetch('/api/pay', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              amount: currentAmount,
+              planName: currentPlan,
+              payerName: payerName,
+              payerEmail: payerEmail,
+              payerMobile: payerMobile
+            })
+          });
+
+          const data = await res.json();
+
+          if (data && data.checkoutUrl) {
+            // Direct Redirect to Official SabPaisa Checkout Page
+            window.location.href = data.checkoutUrl;
+            return;
+          }
+
+          if (data && data.action && data.params) {
+            // Dynamic encrypted form submission generated by Node.js backend
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = data.action;
+            form.style.display = 'none';
+
+            for (const [key, value] of Object.entries(data.params)) {
+              const input = document.createElement('input');
+              input.type = 'hidden';
+              input.name = key;
+              input.value = value;
+              form.appendChild(input);
+            }
+
+            document.body.appendChild(form);
+            form.submit();
+            return;
+          }
+
+          if (data && data.error) {
+            alert('Payment Error: ' + data.error);
+          } else {
+            alert('Connecting to SabPaisa Gateway...');
+          }
+
+        } catch (err) {
+          console.error('Payment launch error:', err);
+          alert('Connecting to Gateway server. If hosting locally, please deploy to Vercel to activate live backend encryption.');
+        } finally {
+          if (submitBtn) {
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = 'Pay Now via SabPaisa Gateway';
+          }
+        }
       });
     }
   }
@@ -258,17 +246,6 @@ document.addEventListener('DOMContentLoaded', () => {
       document.getElementById('spModalPlanPrice').textContent = '₹' + Number(planPrice).toLocaleString('en-IN');
       overlay.setAttribute('data-price', planPrice);
       overlay.setAttribute('data-plan', planName);
-
-      // Generate dynamic QR Code for the specific price
-      const upiUrl = `upi://pay?pa=8433206010@upi&pn=ARK%20Management&am=${planPrice}&cu=INR&tn=${encodeURIComponent(planName)}`;
-      const qrApi = `https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=${encodeURIComponent(upiUrl)}`;
-      
-      const qrImg = document.getElementById('spQrImg');
-      const upiLink = document.getElementById('spUpiPayLink');
-
-      if (qrImg) qrImg.src = qrApi;
-      if (upiLink) upiLink.href = upiUrl;
-
       overlay.classList.add('active');
     }
   };
