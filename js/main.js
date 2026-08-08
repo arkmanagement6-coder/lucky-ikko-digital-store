@@ -261,7 +261,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       if (href.includes('SEO')) {
         planName = 'Organic SEO Services';
-        planPrice = 999;
+        planPrice = 1;
       } else if (href.includes('GoogleListing')) {
         planName = 'Google Listing Optimization';
         planPrice = 1999;
@@ -304,7 +304,7 @@ document.addEventListener('DOMContentLoaded', () => {
       payNowBtn.addEventListener('click', () => {
         const selected = serviceSelect ? serviceSelect.value : 'SEO Services';
         let planName = 'Organic SEO Services';
-        let planPrice = 999;
+        let planPrice = 1;
         if (selected.includes('Paid')) { planName = 'ROI-Driven Paid Ads'; planPrice = 4999; }
         else if (selected.includes('Google')) { planName = 'Google Listing Optimization'; planPrice = 1999; }
         else if (selected.includes('PR')) { planName = 'Public Relations & PR Services'; planPrice = 19999; }
