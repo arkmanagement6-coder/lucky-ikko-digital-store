@@ -71,9 +71,14 @@ module.exports = async (req, res) => {
     const data = await response.json();
 
     if (data && data.success && data.checkoutUrl) {
+      let finalCheckoutUrl = data.checkoutUrl;
+      if (data.clientSecret && !finalCheckoutUrl.includes('clientSecret=')) {
+        finalCheckoutUrl += (finalCheckoutUrl.includes('?') ? '&' : '?') + 'clientSecret=' + encodeURIComponent(data.clientSecret);
+      }
+
       return res.status(200).json({
         success: true,
-        checkoutUrl: data.checkoutUrl
+        checkoutUrl: finalCheckoutUrl
       });
     }
 
