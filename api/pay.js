@@ -22,67 +22,26 @@ module.exports = async (req, res) => {
     const { amount, planName, payerName, payerEmail, payerMobile } = body || {};
 
     if (!amount || !payerName || !payerEmail || !payerMobile) {
-      return res.status(400).json({ error: 'Please enter Name, Email, and Mobile number.' });
+      return res.status(400).json({ error: 'Please fill out your Name, Email, and Mobile number.' });
     }
 
     const clientCode = 'ARKM1';
-    const apiKey = 'sp_P4FN07lSTKNxqbLdT2SN5ZvKCzBTxasI0PgsMaM7_Og';
-    const secretKey = 'sec_C-0PTD_nPJ2Q4j7JDGDqhmqQLYyNEXTLkiJgp_dAAMU';
+    const authKey = 'sp_P4FN07lSTKNxqbLdT2SN5ZvKCzBTxasI0PgsMaM7_Og';
+    const authIV = 'sec_C-0PTD_nPJ2Q4j7JDGDqhmqQLYyNEXTLkiJgp_dAAMU';
     const clientTxnId = `ARKM1_TXN_${Date.now()}_${Math.floor(Math.random() * 1000)}`;
 
     const host = req.headers.host || 'lucky-ikko-digital-store.vercel.app';
     const protocol = req.headers['x-forwarded-proto'] || 'https';
     const callbackUrl = `${protocol}://${host}/services.html?payment=complete`;
 
-    const payload = {
-      merchantId: clientCode,
-      merchantTxnId: clientTxnId,
-      amount: parseFloat(amount),
-      currency: 'INR',
-      customerName: payerName,
-      customerEmail: payerEmail,
-      customerPhone: payerMobile,
-      productName: planName || 'ARK Digital Service Plan',
-      callbackUrl: callbackUrl,
-      timestamp: Math.floor(Date.now() / 1000)
-    };
+    // Construct SabPaisa plain request string
+    const requestStr = `payerName=${payerName.trim()}&payerEmail=${payerEmail.trim()}&payerMobile=${payerMobile.trim()}&clientTxnId=${clientTxnId}&amount=${amount}&clientCode=${clientCode}&transUserName=${clientCode}&transUserPassword=${authIV}&callbackUrl=${callbackUrl}&channelId=W`;
 
-    const signature = crypto
-      .createHmac('sha256', secretKey)
-      .update(JSON.stringify(payload))
-      .digest('hex');
+    // AES-256-CBC Encryption using authKey (32 bytes) as Key and authIV (16 bytes) as IV
+    const key = Buffer.from(authKey.padEnd(32, '0').substring(0, 32), 'utf8');
+    const iv = Buffer.from(authIV.padEnd(16, '0').substring(0, 16), 'utf8');
 
-    // Attempt official SabPaisa PG 3.0 API
-    try {
-      const response = await fetch('https://txns.sabpaisa.in/api/v2/payments', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-Api-Key': apiKey,
-          'X-Merchant-Id': clientCode,
-          'X-Signature': signature
-        },
-        body: JSON.stringify(payload)
-      });
-
-      const data = await response.json();
-      if (data && (data.checkoutUrl || data.redirectUrl || data.paymentUrl)) {
-        return res.status(200).json({
-          success: true,
-          checkoutUrl: data.checkoutUrl || data.redirectUrl || data.paymentUrl
-        });
-      }
-    } catch (apiErr) {
-      console.log('PG 3.0 call attempted:', apiErr.message);
-    }
-
-    // Encrypt request for SabPaisa encData initiation
-    const requestStr = `payerName=${payerName}&payerEmail=${payerEmail}&payerMobile=${payerMobile}&clientTxnId=${clientTxnId}&amount=${amount}&clientCode=${clientCode}&callbackUrl=${callbackUrl}`;
-    
-    const keyBuf = Buffer.from(secretKey.substring(0, 16).padEnd(16, '0'));
-    const ivBuf = Buffer.from(secretKey.substring(0, 16).padEnd(16, '0'));
-
-    const cipher = crypto.createCipheriv('aes-128-cbc', keyBuf, ivBuf);
+    const cipher = crypto.createCipheriv('aes-256-cbc', key, iv);
     let encData = cipher.update(requestStr, 'utf8', 'hex');
     encData += cipher.final('hex');
 
@@ -96,7 +55,7 @@ module.exports = async (req, res) => {
     });
 
   } catch (err) {
-    console.error('Payment API Error:', err);
+    console.error('SabPaisa Backend Error:', err);
     return res.status(500).json({ error: err.message || 'Payment initiation failed' });
   }
 };
